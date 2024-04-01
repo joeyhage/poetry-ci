@@ -101,5 +101,5 @@ jobs:
       - name: Create manifest list and push
         working-directory: /tmp/digests
         run: |
-          TAGS=$(echo "${{ inputs.TAGS }}" | tr ',' '\n' | awk '{print "-t " $1}' | tr '\n' ' ')
+          TAGS=$(echo "${{ inputs.TAGS }}" | tr ',' '\n' | awk '{print "-t " ENVIRON["REGISTRY_IMAGE"] ":" $1}' | tr '\n' ' ')
           docker buildx imagetools create $TAGS $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
