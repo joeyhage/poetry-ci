@@ -32,8 +32,6 @@ RUN set -ex \
           zip \
           jq \
           tar \
-          gnupg2 \
-          g++ \
     # pyenv suggested build environment
     && apt-get install -y --no-install-recommends \
           build-essential libssl-dev zlib1g-dev \
