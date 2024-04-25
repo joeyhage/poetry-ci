@@ -3,13 +3,13 @@
 ARG OS
 ARG PYTHON_VERSION
 FROM python:${PYTHON_VERSION}-${OS} as build-stage
+
+ARG PIP_NO_CACHE_DIR=off
+ARG PIP_DISABLE_PIP_VERSION_CHECK=on
+ARG PIP_DEFAULT_TIMEOUT=100
 ARG POETRY_VERSION
 
-ENV PIP_NO_CACHE_DIR=off \
-    PIP_DISABLE_PIP_VERSION_CHECK=on \
-    PIP_DEFAULT_TIMEOUT=100 \
-    POETRY_VERSION=${POETRY_VERSION} \
-    POETRY_HOME=/opt/poetry         
+ENV POETRY_HOME=/opt/poetry
 
 # https://python-poetry.org/docs/#installing-manually
 RUN python -m venv ${POETRY_HOME}; \
@@ -18,7 +18,7 @@ RUN python -m venv ${POETRY_HOME}; \
 
 FROM python:${PYTHON_VERSION}-${OS} as production-image
 
-ENV PATH="/opt/poetry/bin:$PATH" \
+ENV PATH="$PATH:/opt/poetry/bin" \
     DEBIAN_FRONTEND="noninteractive"
 
 RUN set -ex \
